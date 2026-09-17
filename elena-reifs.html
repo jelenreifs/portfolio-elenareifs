@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elena Reifs · Diseño de producto, accesibilidad y formación</title>
+<meta name="description" content="Diseñadora UX/UI y de producto en Bilbao. Veinte años diseñando productos digitales sabiendo cómo se construyen, con foco en accesibilidad web y formación.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blanco:#FFFFFF;--tinta:#16202A;--tiza:#F4F4F1;
+  --piedra:#77808A;--piedra-claro:#E2E3E6;
+  --ultramar:#2A2FC4;--ultramar-claro:#8C93FF;
+  --bg:var(--blanco);--fg:var(--tinta);--sup:var(--tiza);
+  --linea:rgba(22,32,42,.13);--acento:var(--ultramar);--acento-suave:#E8E9FB;
+  --max:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101820;--fg:#E6E5DF;--sup:#182430;--linea:rgba(230,229,223,.18);
+    --piedra:#9DA098;--piedra-claro:#2A3744;--acento:#9AA0FF;--acento-suave:#1D2740;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101820;--fg:#E6E5DF;--sup:#182430;--linea:rgba(230,229,223,.18);
+  --piedra:#9DA098;--piedra-claro:#2A3744;--acento:#9AA0FF;--acento-suave:#1D2740;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:clamp(1rem,.96rem + .25vw,1.125rem);line-height:1.65;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Montserrat,"Atkinson Hyperlegible",system-ui,sans-serif;line-height:1.05;letter-spacing:-.025em;margin:0;font-weight:800}
+p{margin:0 0 1em}
+a{color:inherit}
+img,svg{max-width:100%}
+.salta{position:absolute;left:-9999px;top:0;background:var(--acento);color:#fff;padding:.75rem 1.25rem;z-index:300;text-decoration:none}
+.salta:focus{left:0}
+:focus-visible{outline:3px solid var(--acento);outline-offset:3px;border-radius:2px}
+.envoltura{max-width:var(--max);margin-inline:auto;padding-inline:clamp(1.25rem,5vw,3.5rem)}
+
+/* cortina: las barras salen alternando arriba y abajo */
+.cortina{position:fixed;inset:0;z-index:200;display:grid;grid-template-columns:repeat(6,1fr);pointer-events:none}
+.cortina i{display:block;background:var(--fg)}
+.cortina i:nth-child(odd){animation:salir-arriba .8s cubic-bezier(.86,0,.07,1) forwards}
+.cortina i:nth-child(even){animation:salir-abajo .8s cubic-bezier(.86,0,.07,1) forwards}
+.cortina i:nth-child(3){background:var(--acento)}
+.cortina i:nth-child(1){animation-delay:.18s}
+.cortina i:nth-child(2){animation-delay:.26s}
+.cortina i:nth-child(3){animation-delay:.34s}
+.cortina i:nth-child(4){animation-delay:.42s}
+.cortina i:nth-child(5){animation-delay:.50s}
+.cortina i:nth-child(6){animation-delay:.58s}
+@keyframes salir-arriba{to{transform:translateY(-101%)}}
+@keyframes salir-abajo{to{transform:translateY(101%)}}
+@media (prefers-reduced-motion: reduce){.cortina{display:none}}
+
+/* cabecera */
+.cabecera{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--linea)}
+.cabecera .envoltura{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px}
+.marca{font-family:Montserrat;font-weight:700;font-size:1rem;text-decoration:none}
+.marca span{display:block;font-family:"Atkinson Hyperlegible";font-weight:400;font-size:.78rem;color:var(--piedra);letter-spacing:0}
+.nav{display:flex;gap:clamp(.6rem,2vw,1.6rem);align-items:center;flex-wrap:wrap}
+.nav a{font-size:.92rem;text-decoration:none;padding:.5rem .1rem;border-bottom:2px solid transparent}
+.nav a:hover{border-bottom-color:var(--acento)}
+.tema{background:none;border:1px solid var(--linea);color:inherit;font:inherit;font-size:.82rem;padding:.4rem .7rem;border-radius:999px;cursor:pointer;min-height:36px}
+.tema:hover{border-color:var(--acento)}
+@media (max-width:640px){.nav a:not(.destacado){display:none}}
+
+/* hero */
+.hero{padding:clamp(3rem,9vw,7rem) 0 clamp(3rem,7vw,5rem)}
+.hero .envoltura{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:clamp(2rem,6vw,4.5rem);align-items:center}
+@media (max-width:860px){.hero .envoltura{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.4rem,7vw,4.7rem)}
+.hero h1 em{font-style:normal;display:block;color:var(--piedra);font-size:clamp(1rem,2.2vw,1.35rem);font-family:"Atkinson Hyperlegible";font-weight:400;letter-spacing:0;line-height:1.4;margin-top:1.4rem;max-width:34ch}
+.entradilla{margin-top:1.6rem;max-width:40ch;font-size:clamp(1.05rem,1vw + .8rem,1.3rem);line-height:1.5}
+.acciones{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:2rem}
+.boton{display:inline-block;padding:.85rem 1.4rem;background:var(--acento);color:#fff;text-decoration:none;font-weight:700;border-radius:2px;min-height:48px}
+.boton:hover{background:var(--fg)}
+.boton.fantasma{background:none;color:inherit;border:1px solid var(--linea)}
+.boton.fantasma:hover{border-color:var(--acento);background:none;color:var(--acento)}
+
+/* retrato de línea bajo las barras */
+.escena{position:relative;aspect-ratio:4/4.6;width:100%}
+.retrato-linea{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.retrato-linea path{fill:none;stroke:var(--fg);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.retrato-linea .trazo{stroke-dasharray:1400;stroke-dashoffset:1400;animation:dibujar 2.4s cubic-bezier(.4,0,.2,1) .7s forwards}
+.retrato-linea .t2{animation-delay:.95s}
+.retrato-linea .t3{animation-delay:1.2s}
+.retrato-linea .t4{animation-delay:1.45s}
+@keyframes dibujar{to{stroke-dashoffset:0}}
+.barras{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(6px,1.1vw,13px)}
+.col{position:relative;will-change:transform}
+.col i{position:absolute;left:0;right:0;display:block;background:var(--fg);transform-origin:bottom center;
+  animation:brotar .95s cubic-bezier(.22,1.4,.4,1) both, mecer 7s ease-in-out infinite alternate 2.1s}
+.col.arriba i{top:0;transform-origin:top center}
+.col.abajo i{bottom:0}
+.col.tinte i{background:var(--acento)}
+.col.gris i{background:var(--piedra)}
+.col.hueco i{background:none;border:1.5px solid var(--fg)}
+@keyframes brotar{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes mecer{from{transform:scaleY(1) translateY(0)}to{transform:scaleY(1.035) translateY(-7px)}}
+.col:nth-child(1) i{animation-delay:.95s,2.1s}
+.col:nth-child(2) i{animation-delay:1.05s,2.4s}
+.col:nth-child(3) i{animation-delay:1.15s,2.0s}
+.col:nth-child(4) i{animation-delay:1.25s,2.7s}
+.col:nth-child(5) i{animation-delay:1.35s,2.2s}
+.col:nth-child(6) i{animation-delay:1.45s,2.5s}
+.col:nth-child(2) i{animation-duration:.95s,8.5s}
+.col:nth-child(4) i{animation-duration:.95s,9.5s}
+.col:nth-child(6) i{animation-duration:.95s,7.8s}
+@media (prefers-reduced-motion: reduce){
+  .col i{animation:none}
+  .retrato-linea .trazo{animation:none;stroke-dashoffset:0}
+}
+.pie-escultura{margin-top:1.2rem;font-size:.82rem;color:var(--piedra);max-width:38ch}
+
+/* iconos */
+.ico{display:block;width:34px;height:34px;fill:none;stroke:var(--fg);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1.1rem}
+.ico .a{stroke:var(--acento)}
+.ico .af{fill:var(--acento);stroke:none}
+
+/* secciones */
+section{padding:clamp(3.5rem,8vw,6.5rem) 0;border-top:1px solid var(--linea)}
+.titular{font-size:clamp(1.9rem,4.4vw,3.1rem);max-width:18ch}
+.intro-seccion{max-width:56ch;margin-top:1.4rem}
+.rejilla-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:clamp(2rem,5vw,4rem);align-items:start}
+@media (max-width:860px){.rejilla-2{grid-template-columns:1fr}}
+
+/* puertas */
+.puertas{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(2rem,5vw,3.5rem);border-top:1px solid var(--linea)}
+@media (max-width:860px){.puertas{grid-template-columns:1fr}}
+.puerta{padding:2rem clamp(1rem,2vw,1.75rem) 2.25rem;border-bottom:1px solid var(--linea);border-right:1px solid var(--linea)}
+.puerta:last-child{border-right:none}
+@media (max-width:860px){.puerta{border-right:none}}
+.puerta h3{font-size:1.5rem;margin-bottom:.85rem}
+.puerta p{font-size:.98rem;margin-bottom:1rem}
+.puerta ul{margin:0;padding-left:1.1rem;font-size:.94rem;color:var(--piedra)}
+.puerta li{margin-bottom:.35rem}
+
+/* casos */
+.caso{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.4fr);gap:clamp(1.5rem,4vw,3.5rem);padding:clamp(2rem,4vw,3rem) 0;border-bottom:1px solid var(--linea)}
+@media (max-width:860px){.caso{grid-template-columns:1fr;gap:1.25rem}}
+.caso h3{font-size:clamp(1.4rem,2.6vw,2rem);margin-bottom:.7rem}
+.caso .meta{font-size:.88rem;color:var(--piedra);margin-bottom:.9rem}
+.caso .meta strong{color:var(--fg);font-weight:700}
+.marco{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--sup);border:1px solid var(--linea);color:var(--fg)}
+.marco svg.ilustra{width:100%;height:100%;display:block;transition:transform .6s cubic-bezier(.2,.7,.3,1)}
+.marco::after{content:"";position:absolute;inset:0;background:var(--acento);opacity:0;transition:opacity .5s ease;pointer-events:none}
+.marco:hover svg.ilustra,.marco:focus-within svg.ilustra{transform:scale(1.04)}
+.marco:hover::after,.marco:focus-within::after{opacity:.05}
+.ilustra .base{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.ilustra .azul{fill:none;stroke:var(--acento);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ilustra .azulf{fill:var(--acento);stroke:none}
+.ilustra .traza{stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 1s ease}
+.marco:hover .traza,.marco:focus-within .traza{stroke-dashoffset:0}
+@media (prefers-reduced-motion: reduce){
+  .marco svg.ilustra,.marco::after{transition:none}
+  .ilustra .traza{stroke-dashoffset:0;transition:none}
+}
+.pendiente{display:inline-block;font-size:.75rem;font-weight:700;color:var(--acento);border:1px solid var(--acento);padding:.2rem .55rem;border-radius:999px;margin-bottom:.8rem}
+.lista-limpia{list-style:none;padding:0;margin:1rem 0 0}
+.lista-limpia li{position:relative;padding:.55rem 0 .55rem 1.9rem;border-top:1px solid var(--linea);font-size:.95rem}
+.lista-limpia li::before{content:"";position:absolute;left:0;top:.95rem;width:15px;height:15px;background-repeat:no-repeat;background-size:contain;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232A2FC4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")}
+:root[data-theme="dark"] .lista-limpia li::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA0FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .lista-limpia li::before{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA0FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E")}
+}
+
+/* accesibilidad */
+.acc{background:var(--sup)}
+.cita-tipo{font-family:Montserrat;font-weight:700;font-size:clamp(1.25rem,2.5vw,1.8rem);line-height:1.3;margin:0 0 1rem;max-width:26ch;letter-spacing:-.02em}
+.datos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1.5rem;margin-top:2.5rem}
+.dato .cifra{font-family:Montserrat;font-weight:800;font-size:clamp(1.8rem,3.6vw,2.6rem);color:var(--acento);line-height:1;letter-spacing:-.03em}
+.dato p{font-size:.9rem;color:var(--piedra);margin:.5rem 0 0}
+
+/* formación */
+.cursos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--linea);margin-top:2.5rem;border:1px solid var(--linea)}
+.curso{background:var(--bg);padding:1.75rem 1.5rem}
+.curso .ico{width:28px;height:28px;margin-bottom:.9rem}
+.curso h3{font-size:1.1rem;margin-bottom:.5rem}
+.curso p{font-size:.92rem;color:var(--piedra);margin:0}
+
+/* sobre mí */
+.foto-real{width:100%;max-width:320px;border-radius:2px;display:block}
+
+/* contacto */
+.contacto{background:var(--fg);color:var(--bg);overflow:hidden}
+.contacto .titular,.contacto .intro-seccion{color:var(--bg)}
+.contacto a{color:var(--bg)}
+.contacto .linea-contacto{display:block;font-family:Montserrat;font-weight:700;font-size:clamp(1.1rem,3vw,1.9rem);text-decoration:none;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.2);word-break:break-word;letter-spacing:-.02em}
+.contacto .linea-contacto:hover{color:var(--ultramar-claro);padding-left:.6rem;transition:padding .2s}
+@media (prefers-reduced-motion: reduce){.contacto .linea-contacto:hover{transition:none}}
+.contacto :focus-visible{outline-color:var(--bg)}
+.red{display:block;width:100%;height:auto;margin-top:clamp(2.5rem,6vw,4.5rem)}
+.red .via{fill:none;stroke:rgba(255,255,255,.22);stroke-width:1.6}
+.red .pulso{fill:none;stroke:var(--ultramar-claro);stroke-width:3;stroke-linecap:round}
+.red .p1{stroke-dasharray:120 1880;animation:viaja 7s linear infinite}
+.red .p2{stroke-dasharray:90 1910;animation:viaja 11s linear infinite;animation-delay:-3s}
+.red .p3{stroke-dasharray:150 1850;animation:viaja 9s linear infinite;animation-delay:-5s}
+.red .nodo{fill:none;stroke:rgba(255,255,255,.45);stroke-width:1.6}
+.red .chispa{fill:var(--ultramar-claro);animation:latir 3.4s ease-in-out infinite}
+.red .c2{animation-delay:.8s}.red .c3{animation-delay:1.6s}.red .c4{animation-delay:2.4s}
+@keyframes viaja{to{stroke-dashoffset:-2000}}
+@keyframes latir{0%,100%{opacity:.2;r:3}50%{opacity:1;r:5}}
+@media (prefers-reduced-motion: reduce){
+  .red .pulso{animation:none;stroke-dasharray:none;opacity:.5}
+  .red .chispa{animation:none;opacity:.8}
+}
+
+footer{padding:2.5rem 0;font-size:.85rem;color:var(--piedra)}
+footer .envoltura{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+footer a{color:var(--piedra)}
+details{max-width:62ch}
+summary{cursor:pointer;padding:.35rem 0;font-weight:700;color:var(--fg)}
+details p{font-size:.85rem;margin-top:.6rem}
+</style>
+</head>
+<body>
+<a class="salta" href="#principal">Saltar al contenido</a>
+<div class="cortina" id="cortina" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header class="cabecera">
+  <div class="envoltura">
+    <a class="marca" href="#principal">Elena Reifs<span>Diseño de producto y accesibilidad</span></a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#trabajo">Trabajo</a>
+      <a href="#accesibilidad">Accesibilidad</a>
+      <a href="#formacion">Formación</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#contacto" class="destacado">Contacto</a>
+      <button class="tema" type="button" id="btn-tema" aria-pressed="false">Modo oscuro</button>
+    </nav>
+  </div>
+</header>
+
+<main id="principal">
+  <div class="hero">
+    <div class="envoltura">
+      <div>
+        <h1>Diseño lo que sé construir.<em>Y lo construyo para que lo pueda usar cualquiera.</em></h1>
+        <p class="entradilla">Diseñadora UX/UI y de producto en Bilbao. Veinte años llevando problemas de negocio complejos a interfaces que la gente entiende, en banca, industria y administración pública.</p>
+        <div class="acciones">
+          <a class="boton" href="#trabajo">Ver el trabajo</a>
+          <a class="boton fantasma" href="#contacto">Hablemos</a>
+        </div>
+      </div>
+      <div>
+        <div class="escena" id="escena">
+          <svg class="retrato-linea" viewBox="0 0 420 560" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Retrato ilustrado a línea de Elena Reifs.">
+            <path class="trazo t1" d="M252 62 C192 44 140 94 134 154 C130 188 128 198 120 212 C110 230 98 244 86 260 C76 272 90 288 108 280"/>
+            <path class="trazo t2" d="M102 306 C124 294 156 296 166 308 C152 322 118 324 102 306"/>
+            <path class="trazo t2" d="M104 310 C124 314 148 312 164 308"/>
+            <path class="trazo t3" d="M98 338 C104 368 132 390 168 396 C192 402 190 442 156 472 C124 500 80 520 56 560"/>
+            <path class="trazo t2" d="M252 62 C330 78 360 142 350 216 C342 282 310 338 316 394 C320 432 354 444 376 422 C390 408 388 386 370 382"/>
+            <path class="trazo t4" d="M284 92 C328 138 328 218 302 272"/>
+            <path class="trazo t3" d="M148 204 C168 194 194 196 206 206"/>
+            <path class="trazo t4" d="M146 224 C158 214 182 216 190 228 C178 236 157 235 146 224"/>
+          </svg>
+          <div class="barras" aria-hidden="true">
+            <div class="col abajo" data-fondo="16"><i style="height:26%"></i></div>
+            <div class="col arriba gris" data-fondo="-24"><i style="height:20%"></i></div>
+            <div class="col abajo hueco" data-fondo="28"><i style="height:16%"></i></div>
+            <div class="col arriba" data-fondo="-18"><i style="height:58%"></i></div>
+            <div class="col abajo tinte" data-fondo="30"><i style="height:72%"></i></div>
+            <div class="col arriba gris" data-fondo="-14"><i style="height:44%"></i></div>
+          </div>
+        </div>
+        <p class="pie-escultura">El hueco también construye. Lo aprendí en Bellas Artes y lo sigo usando cada vez que quito algo de una pantalla.</p>
+      </div>
+    </div>
+  </div>
+
+  <section id="trabajo" aria-labelledby="t-trabajo">
+    <div class="envoltura">
+      <div class="rejilla-2">
+        <h2 class="titular" id="t-trabajo">Tres formas de trabajar juntos</h2>
+        <p class="intro-seccion">Vengo de diseñar, de programar el front y de dar clase. Según lo que necesites, entro por una puerta o por otra, y a menudo por las tres a la vez.</p>
+      </div>
+      <div class="puertas">
+        <div class="puerta">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <rect x="4" y="6" width="24" height="20" rx="1.5"/><path d="M4 12h24M12 12v14"/>
+            <rect class="a" x="17" y="16" width="7" height="6" rx="1"/>
+          </svg>
+          <h3>Diseño de producto</h3>
+          <p>Investigación, arquitectura de información y definición de flujos hasta el detalle de la interfaz.</p>
+          <ul><li>Research con usuarios y stakeholders</li><li>Sistemas de diseño en Figma</li><li>Prototipado y validación</li><li>Interlocución directa con ingeniería</li></ul>
+        </div>
+        <div class="puerta">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <circle cx="16" cy="16" r="12.5"/><circle class="af" cx="16" cy="9.6" r="1.9"/>
+            <path class="a" d="M10 13.4h12M16 13.4v5.4M16 18.8l-3.2 6M16 18.8l3.2 6"/>
+          </svg>
+          <h3>Accesibilidad</h3>
+          <p>Auditoría WCAG, remediación y acompañamiento a los equipos que tienen que mantenerla.</p>
+          <ul><li>Revisión contra WCAG 2.2 AA</li><li>Plan de remediación priorizado</li><li>Criterios y patrones para el equipo</li><li>Declaración de accesibilidad</li></ul>
+        </div>
+        <div class="puerta">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <rect x="4" y="5" width="24" height="16" rx="1.5"/><path d="M16 21v5M11 26h10"/>
+            <path class="a" d="M9 16l4.5-4.5 3.5 3 5-6"/>
+          </svg>
+          <h3>Formación</h3>
+          <p>Cursos a medida para empresas y docencia reglada, con materiales propios.</p>
+          <ul><li>UX/UI y design thinking</li><li>Accesibilidad web</li><li>Desarrollo web y WordPress</li><li>IA aplicada al diseño</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-casos">
+    <div class="envoltura">
+      <h2 class="titular" id="t-casos">Proyectos</h2>
+      <p class="intro-seccion">Buena parte de mi trabajo está bajo acuerdos de confidencialidad, así que aquí cuento el problema, las restricciones y las decisiones. Si necesitas ver pantallas concretas, te las enseño en una llamada.</p>
+
+      <article class="caso">
+        <div>
+          <div class="marco">
+            <svg class="ilustra" viewBox="0 0 400 300" role="img" aria-label="Ilustración de un formulario de trámite público con un campo enfocado y su validación.">
+              <rect class="base" x="40" y="34" width="320" height="232" rx="4"/>
+              <path class="base" d="M40 66h320"/>
+              <circle class="base" cx="60" cy="50" r="4"/><circle class="base" cx="76" cy="50" r="4"/><circle class="base" cx="92" cy="50" r="4"/>
+              <path class="base" d="M70 92h120M70 150h120M70 208h90"/>
+              <rect class="base" x="70" y="104" width="260" height="26" rx="3"/>
+              <rect class="azul traza" x="66" y="158" width="268" height="34" rx="3"/>
+              <path class="base" d="M78 175h120"/>
+              <rect class="azulf" x="70" y="224" width="98" height="30" rx="3"/>
+              <path class="azul traza" d="M300 214l14 14 26-28"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="pendiente">Caso por completar</span>
+          <h3>Portales de servicios para la Administración Pública</h3>
+          <p class="meta"><strong>Erhardt Serikat</strong>, 2014 a 2022. Gobierno Vasco, Diputaciones de Bizkaia y Gipuzkoa, Puerto de Bilbao.</p>
+          <p>Ciudadanía muy diversa, trámites obligatorios y ningún margen para que alguien se quede fuera. Definí la arquitectura de información, los flujos y los patrones de interfaz bajo estándares de accesibilidad, y establecí los criterios que después usaba el resto del equipo.</p>
+          <ul class="lista-limpia">
+            <li>Entrevistas a stakeholders, workshops de cocreación y análisis heurístico</li>
+            <li>Customer journeys y arquitectura de información</li>
+            <li>Patrones reutilizables documentados para el equipo</li>
+            <li>Resultado medible: por añadir</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="caso">
+        <div>
+          <div class="marco">
+            <svg class="ilustra" viewBox="0 0 400 300" role="img" aria-label="Ilustración de un diagrama donde negocio e ingeniería se conectan a través de un nodo central.">
+              <rect class="base" x="34" y="60" width="72" height="44" rx="3"/>
+              <rect class="base" x="34" y="196" width="72" height="44" rx="3"/>
+              <rect class="base" x="294" y="60" width="72" height="44" rx="3"/>
+              <rect class="base" x="294" y="196" width="72" height="44" rx="3"/>
+              <rect class="azul" x="158" y="118" width="84" height="64" rx="3"/>
+              <path class="azul traza" d="M106 82h30c12 0 22 12 22 26v10M106 218h30c12 0 22-12 22-26v-10"/>
+              <path class="azul traza" d="M294 82h-30c-12 0-22 12-22 26v10M294 218h-30c-12 0-22-12-22-26v-10"/>
+              <path class="base" d="M176 142h48M176 158h30"/>
+              <circle class="azulf" cx="136" cy="82" r="4"/><circle class="azulf" cx="136" cy="218" r="4"/>
+              <circle class="azulf" cx="264" cy="82" r="4"/><circle class="azulf" cx="264" cy="218" r="4"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="pendiente">Caso por completar</span>
+          <h3>Producto en transformación digital corporativa</h3>
+          <p class="meta"><strong>NTT DATA</strong>, 2022 a 2025. Aena, Inditex, Cellnex.</p>
+          <p>Varias cuentas cliente a la vez, de sectores distintos, con equipos de negocio e ingeniería que no hablaban el mismo idioma. Mi trabajo fue ser el punto donde se traducen: recoger el requisito, evaluar alternativas y devolver una solución que fuera viable de construir y defendible ante el cliente.</p>
+          <ul class="lista-limpia">
+            <li>Análisis de requisitos y documentación funcional</li>
+            <li>Decisiones de producto y diseño con responsabilidad directa</li>
+            <li>Validación técnica con ingeniería hasta despliegue</li>
+            <li>Resultado medible: por añadir</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="caso">
+        <div>
+          <div class="marco">
+            <svg class="ilustra" viewBox="0 0 400 300" role="img" aria-label="Ilustración de una pantalla partida: a la izquierda texto de bajo contraste, a la derecha la versión corregida con foco visible.">
+              <rect class="base" x="34" y="40" width="150" height="220" rx="4"/>
+              <path class="base" d="M56 84h100M56 106h80M56 128h94M56 150h64" opacity=".28"/>
+              <circle class="base" cx="106" cy="206" r="22" opacity=".28"/>
+              <path class="base" d="M200 26v248" opacity=".5"/>
+              <rect class="base" x="216" y="40" width="150" height="220" rx="4"/>
+              <path class="base" d="M238 84h100M238 110h80M238 136h94"/>
+              <rect class="azul traza" x="228" y="176" width="126" height="46" rx="3"/>
+              <path class="base" d="M244 199h60"/>
+              <path class="azul traza" d="M226 168h-10M356 168h10"/>
+              <circle class="azulf" cx="106" cy="206" r="5"/>
+              <path class="azul traza" d="M334 196l10 10 18-20"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="pendiente">Caso por completar</span>
+          <h3>Rediseño accesible de un servicio público</h3>
+          <p class="meta">Proyecto propio. Elige un trámite real, audítalo y rediséñalo.</p>
+          <p>Este es el caso que te falta y el que más te va a contratar: coge un formulario público que todo el mundo conozca, mide sus errores de accesibilidad, arréglalo y enseña el antes y el después con números. Sin NDA, sin permisos y directamente demostrable.</p>
+          <ul class="lista-limpia">
+            <li>Auditoría inicial con criterios WCAG 2.2</li>
+            <li>Prototipo corregido y navegable</li>
+            <li>Comparativa de errores antes y después</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="acc" id="accesibilidad" aria-labelledby="t-acc">
+    <div class="envoltura">
+      <div class="rejilla-2">
+        <div><h2 class="titular" id="t-acc">La accesibilidad no es una capa que se añade al final</h2></div>
+        <div>
+          <p class="cita-tipo">Este texto está compuesto en Atkinson Hyperlegible, una tipografía creada por el Braille Institute para personas con baja visión.</p>
+          <p>No es un detalle decorativo. Es la forma más corta que se me ocurre de explicar cómo trabajo: las decisiones que parecen estéticas casi siempre son decisiones de acceso.</p>
+          <p>Desde 2025 buena parte de las empresas y servicios digitales en Europa están obligados por la Ley de Accesibilidad Europea. Muchas lo descubrieron tarde y con el producto ya construido. Ahí es donde entro: audito, priorizo lo que de verdad bloquea a alguien y formo al equipo para que no vuelva a ocurrir.</p>
+          <div class="datos">
+            <div class="dato"><div class="cifra">200 h</div><p>de formación certificada en WCAG</p></div>
+            <div class="dato"><div class="cifra">20</div><p>años diseñando productos digitales de principio a fin</p></div>
+            <div class="dato"><div class="cifra">WCAG 2.2 AA</div><p>nivel al que está construido este propio sitio</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="formacion" aria-labelledby="t-form">
+    <div class="envoltura">
+      <div class="rejilla-2">
+        <h2 class="titular" id="t-form">Formación</h2>
+        <p class="intro-seccion">Cuatro años de docencia reglada, habilitación pedagógica por la UPV/EHU y cursos a medida para empresas. Diseño el programa, los materiales y lo imparto. En castellano, euskera o inglés.</p>
+      </div>
+      <div class="cursos">
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="11"/><path class="af" d="M16 5a11 11 0 010 22z"/></svg>
+          <h3>Accesibilidad web</h3><p>De qué obliga la norma a cómo se arregla un componente concreto. Para diseño, desarrollo y contenido.</p>
+        </div>
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="5" width="15" height="15"/><circle class="a" cx="20" cy="20" r="7.5"/></svg>
+          <h3>Diseño UX/UI</h3><p>Research, arquitectura de información, prototipado en Figma y sistemas de diseño.</p>
+        </div>
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M11 9l-7 7 7 7M21 9l7 7-7 7"/><path class="a" d="M18.5 7l-5 18"/></svg>
+          <h3>Desarrollo web y WordPress</h3><p>HTML, CSS, JavaScript y publicación, orientado a equipos que mantienen su propio sitio.</p>
+        </div>
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="9" y="9" width="14" height="14" rx="1.5"/><path d="M13 9V5M19 9V5M13 27v-4M19 27v-4M9 13H5M9 19H5M27 13h-4M27 19h-4"/><path class="a" d="M16 12.5l1.6 3.4 3.4 1.6-3.4 1.6L16 22.5l-1.6-3.4-3.4-1.6 3.4-1.6z"/></svg>
+          <h3>IA aplicada al diseño</h3><p>Prototipado asistido, generación de interfaces y qué obliga el Reglamento Europeo de IA al publicar.</p>
+        </div>
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 27h22"/><path d="M9 27V17M16 27V12"/><path class="a" d="M23 27V6"/></svg>
+          <h3>Marketing digital y analítica</h3><p>GA4, Tag Manager, test A/B y CRO para tomar decisiones con datos y no con opiniones.</p>
+        </div>
+        <div class="curso">
+          <svg class="ico" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 7h18v13H11l-7 5z"/><path class="a" d="M26 12h2v13l-5-4h-7"/></svg>
+          <h3>Storytelling y visual thinking</h3><p>Cómo contar un proyecto para que lo entienda quien decide el presupuesto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre-mi" aria-labelledby="t-sobre">
+    <div class="envoltura">
+      <div class="rejilla-2">
+        <div>
+          <img class="foto-real" src="data:image/jpeg;base64,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" alt="Fotografía de Elena Reifs Hernando">
+        </div>
+        <div>
+          <h2 class="titular" id="t-sobre">Sobre mí</h2>
+          <p class="intro-seccion">Estudié Bellas Artes en la UPV/EHU, especialidad de medios audiovisuales, cuando lo digital todavía no era una carrera. De ahí vengo y se nota: pienso en composición, en ritmo y en lo que sobra antes de pensar en componentes.</p>
+          <p>Después llegaron veinte años de producto, un paso por el desarrollo front-end que me cambió la forma de diseñar, un máster en Product Management y, últimamente, bastante tiempo metida en IA aplicada al diseño y al desarrollo.</p>
+          <p>Vivo en Bilbao. Hablo castellano, euskera e inglés. Lo que más me gusta de este trabajo sigue siendo la parte de escuchar: entender qué necesita de verdad alguien que no sabe explicarlo todavía.</p>
+          <ul class="lista-limpia">
+            <li>Licenciatura en Bellas Artes, medios audiovisuales, UPV/EHU</li>
+            <li>Máster en Product Management, UNIR</li>
+            <li>Posgrados en UX y en Desarrollo de Aplicaciones Web, UOC</li>
+            <li>Certificado de Aptitud Pedagógica, UPV/EHU</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contacto" id="contacto" aria-labelledby="t-contacto">
+    <div class="envoltura">
+      <h2 class="titular" id="t-contacto">¿Trabajamos juntos?</h2>
+      <p class="intro-seccion">Disponible para diseño de producto, auditorías de accesibilidad y colaboraciones formativas.</p>
+      <div style="margin-top:2.5rem;max-width:40ch">
+        <a class="linea-contacto" href="mailto:jelenreifs@gmail.com">jelenreifs@gmail.com</a>
+        <a class="linea-contacto" href="tel:+34607426291">+34 607 426 291</a>
+        <a class="linea-contacto" href="https://www.linkedin.com/in/elena-reifs" rel="me">LinkedIn</a>
+      </div>
+      <svg class="red" viewBox="0 0 1200 240" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+        <path class="via" id="r1" d="M0 96h150l40-40h230l44 44h236l40-40h214l46 46h200"/>
+        <path class="via" id="r2" d="M0 176h210l48-48h180l40 40h268l44-44h190l50 50h170"/>
+        <path class="via" d="M190 56v120M660 100v76M888 60v116M424 100v76"/>
+        <path class="pulso p1" d="M0 96h150l40-40h230l44 44h236l40-40h214l46 46h200"/>
+        <path class="pulso p2" d="M0 176h210l48-48h180l40 40h268l44-44h190l50 50h170"/>
+        <path class="pulso p3" d="M0 96h150l40-40h230l44 44h236l40-40h214l46 46h200"/>
+        <circle class="nodo" cx="190" cy="56" r="9"/>
+        <circle class="nodo" cx="424" cy="100" r="9"/>
+        <circle class="nodo" cx="660" cy="56" r="9"/>
+        <circle class="nodo" cx="888" cy="128" r="9"/>
+        <circle class="nodo" cx="258" cy="128" r="9"/>
+        <circle class="chispa c1" cx="190" cy="56" r="4"/>
+        <circle class="chispa c2" cx="424" cy="100" r="4"/>
+        <circle class="chispa c3" cx="660" cy="56" r="4"/>
+        <circle class="chispa c4" cx="888" cy="128" r="4"/>
+      </svg>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="envoltura">
+    <p>Elena Reifs Hernando. Bilbao.</p>
+    <details>
+      <summary>Declaración de accesibilidad</summary>
+      <p>Este sitio se ha construido buscando el nivel AA de las WCAG 2.2: contraste suficiente, navegación completa por teclado con foco visible, estructura semántica de encabezados y regiones, texto alternativo en las imágenes con contenido y respeto a la preferencia de movimiento reducido del sistema. Si encuentras una barrera, escríbeme y la corrijo.</p>
+    </details>
+  </div>
+</footer>
+
+<script>
+(function(){var c=document.getElementById('cortina');if(c){setTimeout(function(){c.remove()},1700)}})();
+
+(function(){
+  var b=document.getElementById('btn-tema');
+  var oscuroSistema=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var guardado=null;
+  try{guardado=localStorage.getItem('tema')}catch(e){}
+  function aplicar(t){
+    document.documentElement.setAttribute('data-theme',t);
+    b.textContent=t==='dark'?'Modo claro':'Modo oscuro';
+    b.setAttribute('aria-pressed',t==='dark'?'true':'false');
+  }
+  aplicar(guardado||(oscuroSistema?'dark':'light'));
+  b.addEventListener('click',function(){
+    var nuevo=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    aplicar(nuevo);
+    try{localStorage.setItem('tema',nuevo)}catch(e){}
+  });
+})();
+
+// parallax de las barras con el ratón
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!window.matchMedia('(pointer: fine)').matches)return;
+  var caja=document.getElementById('escena');
+  if(!caja)return;
+  var cols=caja.querySelectorAll('.col');
+  var dx=0,dy=0,x=0,y=0,activo=false;
+  caja.addEventListener('pointermove',function(e){
+    var r=caja.getBoundingClientRect();
+    dx=((e.clientX-r.left)/r.width-.5)*2;
+    dy=((e.clientY-r.top)/r.height-.5)*2;
+    if(!activo){activo=true;requestAnimationFrame(bucle)}
+  });
+  caja.addEventListener('pointerleave',function(){dx=0;dy=0});
+  function bucle(){
+    x+=(dx-x)*.08;y+=(dy-y)*.08;
+    cols.forEach(function(c){
+      var d=parseFloat(c.dataset.fondo||0)/100;
+      c.style.transform='translate3d('+(x*d*30).toFixed(2)+'px,'+(y*d*30).toFixed(2)+'px,0)';
+    });
+    if(Math.abs(dx-x)>.001||Math.abs(dy-y)>.001){requestAnimationFrame(bucle)}else{activo=false}
+  }
+})();
+</script>
+</body>
+</html>
